@@ -29,7 +29,7 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
     }
     private fun getTrailStages(stageId: Int):MutableList<Stage>{
         val stagesList: MutableList<Stage> = mutableListOf()
-        val query = "SELECT * FROM $TABLE_STAGES WHERE id=$stageId"
+        val query = "SELECT * FROM $TABLE_STAGES WHERE id_szlaku=$stageId"
         val db = this.writableDatabase
         val cursor = db.rawQuery(query, null)
         var stage: Stage?

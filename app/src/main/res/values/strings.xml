@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Szlaki turystyczne</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tempo">Twoja prędkość [km/h]:</string>
+    <string name="default_speed">5</string>
+    <string name="etapyString">Etapy wędrówki:</string>
 </resources>
