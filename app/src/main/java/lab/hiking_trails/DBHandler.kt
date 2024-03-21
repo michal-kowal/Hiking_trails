@@ -34,7 +34,7 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
         val cursor = db.rawQuery(query, null)
         var trail: Trail?
         if(cursor.moveToFirst()){
-            val id = cursor.getInt(0)
+            val id = cursor.getLong(0)
             val name = cursor.getString(1)
             val length = cursor.getFloat(2)
             val description = cursor.getString(3)
@@ -45,7 +45,7 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
             trailsList.add(trail)
         }
         while(cursor.moveToNext()){
-            val id = cursor.getInt(0)
+            val id = cursor.getLong(0)
             val name = cursor.getString(1)
             val length = cursor.getFloat(2)
             val description = cursor.getString(3)

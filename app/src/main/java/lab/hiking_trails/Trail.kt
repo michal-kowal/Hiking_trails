@@ -1,8 +1,8 @@
 package lab.hiking_trails
 
-class Trail(id: Int, name: String, length: Float, description: String, localization: String,
+class Trail(id: Long, name: String, length: Float, description: String, localization: String,
             imageId: Int, color: String) {
-    var id: Int
+    var id: Long
     var name: String
     var length: Float
     var description: String

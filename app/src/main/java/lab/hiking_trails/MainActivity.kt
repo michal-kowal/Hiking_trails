@@ -2,6 +2,7 @@ package lab.hiking_trails
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -9,8 +10,7 @@ import lab.hiking_trails.databinding.ActivityMainBinding
 import java.io.File
 import java.io.FileOutputStream
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : AppCompatActivity(), Listener {
 
     private fun copyDatabase(context: Context) {
         val databaseDir = File(context.getDatabasePath("trails.db").parent)
@@ -33,13 +33,13 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
         copyDatabase(this)
-        val dbHandler =  DBHandler(this, null, null, 1)
-        val fragment = TrailsListFragment(dbHandler.getTrailsList())
-        val fragTransaction = supportFragmentManager.beginTransaction()
-        fragTransaction.replace(R.id.main_fragment_container, fragment)
-        fragTransaction.commit()
+    }
+
+    override fun itemClicked(id: Long){
+        var intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra(DetailActivity.EXTRA_TRAIL_ID, id)
+        startActivity(intent)
     }
 }
