@@ -37,9 +37,9 @@ class MainActivity : AppCompatActivity(), Listener {
         copyDatabase(this)
     }
 
-    override fun itemClicked(id: Long){
+    override fun itemClicked(trail: Trail){
         var intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_TRAIL_ID, id)
+        intent.putExtra(DetailActivity.EXTRA_TRAIL, trail)
         startActivity(intent)
     }
 }

@@ -13,14 +13,14 @@ import androidx.fragment.app.ListFragment
 
 class TrailListFragment () : ListFragment() {
     lateinit var listener: Listener
-
+    private lateinit var trails: MutableList<Trail>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val dbHandler =  DBHandler(requireContext(), null, null, 1)
-        val trails = dbHandler.getTrailsList()
+        trails = dbHandler.getTrailsList()
         val names = Array(trails.size){ i ->
             trails[i].name
         }
@@ -40,6 +40,7 @@ class TrailListFragment () : ListFragment() {
         position: Int,
         id: Long
     ) {
-        listener.itemClicked(id)
+        val clickedTrail = trails[position]
+        listener.itemClicked(clickedTrail)
     }
 }

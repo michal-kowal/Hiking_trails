@@ -10,10 +10,10 @@ import android.widget.TextView
 
 class TrailDetailFragment : Fragment() {
 
-    private var trailId: Long = 0
+    private lateinit var trail: Trail
 
-    fun setTrail(id: Long){
-        this.trailId = id
+    fun setTrail(trail: Trail){
+        this.trail = trail
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,7 +34,7 @@ class TrailDetailFragment : Fragment() {
         val view = view
         if(view != null){
             val title = view.findViewById<TextView>(R.id.title)
-            title.text = trailId.toString()
+            title.text = trail.stages[0].name
         }
     }
 }

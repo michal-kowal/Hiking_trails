@@ -1,5 +1,5 @@
 package lab.hiking_trails
 
 interface Listener {
-    fun itemClicked(id: Long)
+    fun itemClicked(trail: Trail)
 }
