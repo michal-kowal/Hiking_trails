@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.FragmentTransaction
 import lab.hiking_trails.databinding.ActivityMainBinding
 import java.io.File
 import java.io.FileOutputStream
@@ -38,8 +40,19 @@ class MainActivity : AppCompatActivity(), Listener {
     }
 
     override fun itemClicked(trail: Trail){
-        var intent = Intent(this, DetailActivity::class.java)
-        intent.putExtra(DetailActivity.EXTRA_TRAIL, trail)
-        startActivity(intent)
+        val fragmentContainer: View? = findViewById(R.id.fragment_container)
+        if(fragmentContainer != null){
+            val details = TrailDetailFragment()
+            val ft = supportFragmentManager.beginTransaction()
+            details.setTrail(trail)
+            ft.replace(R.id.fragment_container, details)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            ft.addToBackStack(null)
+            ft.commit()
+        }else {
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra(DetailActivity.EXTRA_TRAIL, trail)
+            startActivity(intent)
+        }
     }
 }
