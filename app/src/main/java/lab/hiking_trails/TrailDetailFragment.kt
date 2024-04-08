@@ -16,14 +16,19 @@ import java.lang.Math.ceil
 class TrailDetailFragment : Fragment() {
 
     private lateinit var trail: Trail
+    private var trailId: Long = 0
 
     fun setTrail(trail: Trail){
         this.trail = trail
+        this.trailId = trail.id
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        if(savedInstanceState!=null){
+            trailId = savedInstanceState.getLong("trailId")
+            trail = savedInstanceState.getSerializable("trail") as Trail
+        }
     }
 
     override fun onCreateView(
@@ -103,5 +108,10 @@ class TrailDetailFragment : Fragment() {
                 }
             })
         }
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+        savedInstanceState.putLong("trailId", trailId)
+        savedInstanceState.putSerializable("trail", trail)
     }
 }

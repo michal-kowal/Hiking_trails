@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:baselineAligned="false">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:id="@+id/list_frag"
         android:name="lab.hiking_trails.TrailListFragment"
         android:layout_width="0dp"
