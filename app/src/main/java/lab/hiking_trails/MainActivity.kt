@@ -1,6 +1,5 @@
 package lab.hiking_trails
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +8,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import androidx.appcompat.widget.Toolbar
-import lab.hiking_trails.databinding.ActivityMainBinding
 import java.io.File
 import java.io.FileOutputStream
 

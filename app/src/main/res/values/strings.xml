@@ -8,5 +8,6 @@
     <string name="stop">Stop</string>
     <string name="reset">Reset</string>
     <string name="action_activity_title">Szlaki Turystyczne</string>
-    <string name="action_title">Szczegóły</string>
+    <string name="action_title">Detail_Activity</string>
+    <string name="action_share">Share</string>
 </resources>

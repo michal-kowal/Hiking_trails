@@ -8,8 +8,6 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ikona_aplikacji"
-        android:roundIcon="@mipmap/ikona_aplikacji_round"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MotywAplikacji"
@@ -21,7 +19,8 @@
         <activity
             android:name=".DetailActivity"
             android:exported="false"
-            android:label="@string/action_activity_title"/>
+            android:label="@string/action_activity_title"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
