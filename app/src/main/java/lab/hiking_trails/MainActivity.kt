@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
+import androidx.appcompat.widget.Toolbar
 import lab.hiking_trails.databinding.ActivityMainBinding
 import java.io.File
 import java.io.FileOutputStream
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity(), Listener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         copyDatabase(this)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
     }
 
     override fun itemClicked(trail: Trail){

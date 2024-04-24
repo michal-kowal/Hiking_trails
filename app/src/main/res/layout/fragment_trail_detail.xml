@@ -79,6 +79,10 @@
                     android:text="@string/etapyString"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
             </LinearLayout>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/stoper_container"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>

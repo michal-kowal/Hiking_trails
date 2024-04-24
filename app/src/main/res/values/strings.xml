@@ -4,4 +4,9 @@
     <string name="tempo">Twoja prędkość [km/h]:</string>
     <string name="default_speed">5</string>
     <string name="etapyString">Etapy wędrówki:</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
+    <string name="action_activity_title">Szlaki Turystyczne</string>
+    <string name="action_title">Szczegóły</string>
 </resources>

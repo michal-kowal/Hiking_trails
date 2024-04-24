@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetailActivity">
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar"/>
     <fragment
         android:id="@+id/detail_frag"
         class="lab.hiking_trails.TrailDetailFragment"

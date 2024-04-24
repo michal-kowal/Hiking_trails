@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentTransaction
 import java.lang.Math.ceil
 
 
@@ -25,7 +26,15 @@ class TrailDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(savedInstanceState!=null){
+        if(savedInstanceState == null){
+            val stoper = StoperFragment()
+            val ft = childFragmentManager.beginTransaction()
+            ft.add(R.id.stoper_container, stoper)
+            ft.addToBackStack(null)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            ft.commit()
+        }
+        else{
             trailId = savedInstanceState.getLong("trailId")
             trail = savedInstanceState.getSerializable("trail") as Trail
         }

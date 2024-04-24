@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
+    <include
+        layout="@layout/toolbar_main"
+        android:id="@+id/toolbar"/>
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:name="lab.hiking_trails.TrailListFragment"

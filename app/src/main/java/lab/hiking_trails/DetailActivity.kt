@@ -2,6 +2,7 @@ package lab.hiking_trails
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.widget.Toolbar
 
 class DetailActivity : AppCompatActivity() {
     companion object{
@@ -15,5 +16,7 @@ class DetailActivity : AppCompatActivity() {
         if (frag != null && trail != null) {
             frag.setTrail(trail)
         }
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
     }
 }
