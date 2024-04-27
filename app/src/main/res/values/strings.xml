@@ -15,6 +15,9 @@
     <string name="tab1">Tatry</string>
     <string name="tab2">Karkonosze</string>
     <string name="image_title">Szlak</string>
-    <string name="welcome">Najpiękniejsze szlaki turystyczne pod ręką</string>
+    <string name="welcome">Najpiękniejsze szlaki turystyczne</string>
     <string name="autor">Wykonał: Michał Kowalewski</string>
+    <string name="open_drawer">Otwórz szufladę nawigacyjną</string>
+    <string name="close_drawer">Zamknij szufladę nawigacyjną</string>
+    <string name="tatry">Wiedza o Tatrach w pigułce</string>
 </resources>
