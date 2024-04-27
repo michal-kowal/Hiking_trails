@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_action"
         android:title="@string/action_title"
-        android:icon="@drawable/info_fill0_wght400_grad0_opsz24"
+        android:icon="@drawable/arrow_back_fill0_wght400_grad0_opsz24"
         android:orderInCategory="1"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        />
 </menu>

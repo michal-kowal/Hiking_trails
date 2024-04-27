@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-class DBHandler (context: Context, name: String?, factory: SQLiteDatabase.CursorFactory?,
+class DBHandler (private val context: Context, name: String?, factory: SQLiteDatabase.CursorFactory?,
 version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
     companion object{
         private val DATABASE_VERSION = 1
@@ -62,7 +62,8 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
             val name = cursor.getString(1)
             val length = cursor.getFloat(2)
             val description = cursor.getString(3)
-            val image_id = cursor.getInt(4)
+            val image = cursor.getString(4)
+            val image_id = context.resources.getIdentifier(image, "drawable", context.packageName)
             val localization = cursor.getString(5)
             val stages = getTrailStages(id.toInt())
             trail = Trail(id, name, length, description, image_id, localization, stages)
@@ -73,7 +74,8 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
             val name = cursor.getString(1)
             val length = cursor.getFloat(2)
             val description = cursor.getString(3)
-            val image_id = cursor.getInt(4)
+            val image = cursor.getString(4)
+            val image_id = context.resources.getIdentifier(image, "drawable", context.packageName)
             val localization = cursor.getString(5)
             val stages = getTrailStages(id.toInt())
             trail = Trail(id, name, length, description, image_id, localization, stages)

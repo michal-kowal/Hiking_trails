@@ -10,4 +10,8 @@
     <string name="action_activity_title">Szlaki Turystyczne</string>
     <string name="action_title">Detail_Activity</string>
     <string name="action_share">Share</string>
+    <string name="title_top">Fragment główny</string>
+    <string name="home_tab">Wszystkie</string>
+    <string name="tab1">Tatry</string>
+    <string name="tab2">Karkonosze</string>
 </resources>
