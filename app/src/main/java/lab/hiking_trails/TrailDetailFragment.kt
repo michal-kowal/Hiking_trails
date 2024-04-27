@@ -1,16 +1,17 @@
 package lab.hiking_trails
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.lang.Math.ceil
 
 
@@ -91,6 +92,12 @@ class TrailDetailFragment : Fragment() {
         super.onStart()
         val view = view
         if(view != null){
+            val imageView: ImageView = view.findViewById(R.id.image)
+            imageView.setImageResource(trail.imageId)
+
+            val fab: FloatingActionButton = view.findViewById(R.id.FAB)
+            fab.setOnClickListener{clickFab(view)}
+
             val title = view.findViewById<TextView>(R.id.textName)
             title.text = trail.name
             val distance = view.findViewById<TextView>(R.id.textDistance)
@@ -121,5 +128,14 @@ class TrailDetailFragment : Fragment() {
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         savedInstanceState.putLong("trailId", trailId)
         savedInstanceState.putSerializable("trail", trail)
+    }
+
+    private fun clickFab(view: View) {
+        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (takePictureIntent.resolveActivity(view.context.packageManager) != null) {
+            startActivityForResult(takePictureIntent, 1)
+        } else {
+            Toast.makeText(view.context, "Brak aplikacji aparatu", Toast.LENGTH_SHORT).show()
+        }
     }
 }

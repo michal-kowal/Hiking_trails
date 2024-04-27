@@ -17,6 +17,14 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/FAB"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/photo_camera_fill0_wght400_grad0_opsz24"
+                android:onClick="clickFab"
+                android:layout_gravity="end|bottom"
+                android:layout_margin="16dp"/>
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
