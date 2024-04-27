@@ -38,11 +38,10 @@ class Tab1Fragment : Fragment() {
         adapter.setListener(object : CaptionedImagesAdapter.Listener {
             override fun onClick(trail: Trail) {
                 val intent = Intent(activity, DetailActivity::class.java)
-                intent.putExtra(DetailActivity.EXTRA_TRAIL, trail.id.toLong())
+                intent.putExtra(DetailActivity.EXTRA_TRAIL, trail)
                 activity?.startActivity(intent)
             }
         })
-
         return trailRecycler
     }
 

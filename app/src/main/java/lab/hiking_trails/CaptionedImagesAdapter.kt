@@ -19,7 +19,7 @@ class CaptionedImagesAdapter(
     private var listener: Listener? = null
 
     interface Listener {
-        fun onClick(recipe: Trail)
+        fun onClick(trail: Trail)
     }
 
     fun setListener(listener: Listener) {

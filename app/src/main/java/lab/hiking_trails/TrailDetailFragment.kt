@@ -44,7 +44,6 @@ class TrailDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_trail_detail, container, false)
     }
     private fun removeTextViews(layout: LinearLayout) {
