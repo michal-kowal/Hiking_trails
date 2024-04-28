@@ -5,4 +5,9 @@
         android:icon="@drawable/info_fill0_wght400_grad0_opsz24"
         android:title="@string/tatry"
         />
+    <item
+        android:id="@+id/karkonosze"
+        android:icon="@drawable/info_fill0_wght400_grad0_opsz24"
+        android:title="@string/karkonosze"
+        />
 </menu>

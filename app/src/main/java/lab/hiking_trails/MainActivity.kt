@@ -60,26 +60,16 @@ class MainActivity : AppCompatActivity(), Listener,
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.tatry -> {
-                val url = "https://www.twojadomena.com/tatry"
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(url)
-                startActivity(intent)
-            }
-        }
-
-        val drawer: DrawerLayout = findViewById(R.id.drawer_layout)
-        drawer.closeDrawer(GravityCompat.START)
-        return true
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         copyDatabase(this)
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
+
+        val navigationView: NavigationView = findViewById(R.id.nav_view)
+        navigationView.bringToFront()
+        navigationView.setNavigationItemSelectedListener(this)
 
         val pagerAdapter =SectionsPagerAdapter(this, supportFragmentManager)
         val pager = findViewById<View>(R.id.pager) as ViewPager
@@ -98,13 +88,31 @@ class MainActivity : AppCompatActivity(), Listener,
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
-
         val fragment = TopFragment()
         val ft = supportFragmentManager.beginTransaction()
         ft.add(R.id.content_frame, fragment)
         ft.commit()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.tatry -> {
+                val url = "https://pl.wikipedia.org/wiki/Tatry"
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                startActivity(intent)
+            }
+            R.id.karkonosze -> {
+                val url = "https://pl.wikipedia.org/wiki/Karkonosze"
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(url)
+                startActivity(intent)
+            }
+        }
+
+        val drawer: DrawerLayout = findViewById(R.id.drawer_layout)
+        drawer.closeDrawer(GravityCompat.START)
+        return true
     }
 
     override fun itemClicked(trail: Trail){

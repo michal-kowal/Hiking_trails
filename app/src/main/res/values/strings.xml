@@ -19,5 +19,6 @@
     <string name="autor">Wykonał: Michał Kowalewski</string>
     <string name="open_drawer">Otwórz szufladę nawigacyjną</string>
     <string name="close_drawer">Zamknij szufladę nawigacyjną</string>
-    <string name="tatry">Wiedza o Tatrach w pigułce</string>
+    <string name="tatry">Informacje o Tatrach</string>
+    <string name="karkonosze">Informacje o Karnonoszach</string>
 </resources>
