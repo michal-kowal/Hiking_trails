@@ -23,22 +23,19 @@ import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity(), Listener,
     NavigationView.OnNavigationItemSelectedListener {
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
+//
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when(item.itemId){
-//            R.id.action_action -> {
-//
-//                val intent = Intent(this, DetailActivity::class.java)
-//                startActivity(intent)
-//                return true
+//        return when (item.itemId) {
+//            R.id.action_search -> {
+//                println("jajo")
+//                true
 //            }
-//            else -> return super.onOptionsItemSelected(item)
+//            else -> super.onOptionsItemSelected(item)
 //        }
-//
 //    }
     private fun copyDatabase(context: Context) {
         val databaseDir = File(context.getDatabasePath("trails.db").parent)

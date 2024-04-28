@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import kotlin.properties.Delegates
 
 class StoperFragment : Fragment(), View.OnClickListener {
     private var seconds = 0
     private var running = false
     private var wasRunning = false
+//    private val dbHandler =  DBHandler(requireContext(), null, null, 1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,7 +91,7 @@ class StoperFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(view: View) {
-        when(view.getId()){
+        when(view.id){
             R.id.start_button -> onClickStart()
             R.id.stop_button -> onClickStop()
             R.id.reset_button -> onClickReset()

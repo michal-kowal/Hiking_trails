@@ -7,11 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper
 class DBHandler (private val context: Context, name: String?, factory: SQLiteDatabase.CursorFactory?,
 version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
     companion object{
-        private val DATABASE_VERSION = 1
-        private val DATABASE_NAME = "trails.db"
+        private const val DATABASE_VERSION = 1
+        private const val DATABASE_NAME = "trails.db"
 
-        val TABLE_TRAILS = "trails"
-        val TABLE_STAGES = "etapy"
+        const val TABLE_TRAILS = "trails"
+        const val TABLE_STAGES = "etapy"
+        const val TABLE_TIMES = "times"
 
         val COLUMN_ID = "id"
         val COLUMN_NAME = "name"
@@ -26,6 +27,12 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
     }
 
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
+    }
+
+    fun insertStartTime(trailId: Int, seconds: Int){
+        val query = "INSERT INTO $TABLE_TIMES (trailId, start, saved) VALUES ($trailId, $seconds, 0)"
+        val db = this.writableDatabase
+        db.execSQL(query)
     }
     private fun getTrailStages(stageId: Int):MutableList<Stage>{
         val stagesList: MutableList<Stage> = mutableListOf()
