@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity(), Listener,
         navigationView.bringToFront()
         navigationView.setNavigationItemSelectedListener(this)
 
-        val pagerAdapter =SectionsPagerAdapter(this, supportFragmentManager)
+        val pagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
         val pager = findViewById<View>(R.id.pager) as ViewPager
         pager.adapter = pagerAdapter
 
@@ -85,10 +85,10 @@ class MainActivity : AppCompatActivity(), Listener,
         drawer.addDrawerListener(toggle)
         toggle.syncState()
 
-        val fragment = TopFragment()
-        val ft = supportFragmentManager.beginTransaction()
-        ft.add(R.id.content_frame, fragment)
-        ft.commit()
+//        val fragment = Fragment()
+//        val ft = supportFragmentManager.beginTransaction()
+//        ft.add(R.id.content_frame, fragment)
+//        ft.commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

@@ -42,15 +42,15 @@
                 android:id="@+id/tabs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/toolbar" /> <!-- Ustawienie pod paskiem narzędziowym -->
+                android:layout_below="@id/toolbar" />
         </com.google.android.material.appbar.AppBarLayout>
 
-    <!--    <androidx.fragment.app.FragmentContainerView-->
-    <!--        android:id="@+id/fragment_container"-->
-    <!--        android:name="lab.hiking_trails.TrailListFragment"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_below="@id/appbar" />-->
+<!--        <androidx.fragment.app.FragmentContainerView-->
+<!--            android:id="@+id/fragment_container"-->
+<!--            android:name="lab.hiking_trails.TrailListFragment"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_below="@id/appbar" />-->
 
         <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
