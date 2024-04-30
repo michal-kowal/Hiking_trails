@@ -7,7 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#33C4B6</color>
+    <color name="colorPrimaryDark">#33C4B6</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="bright_sun">#fcfcb7</color>
+    <color name="blue_sky">#33C4B6</color>
+    <color name="sunset_sky">#ec8100</color>
+    <color name="night_sky">#05192e</color>
+    <color name="sea">#224869</color>
 </resources>
