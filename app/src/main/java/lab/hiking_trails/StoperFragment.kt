@@ -7,13 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 
-class StoperFragment : Fragment(), View.OnClickListener {
+class StoperFragment() : Fragment(), View.OnClickListener {
     private var seconds = 0
     private var running = false
     private var wasRunning = false
-//    private val dbHandler =  DBHandler(requireContext(), null, null, 1)
+    //    private val dbHandler =  DBHandler(requireContext(), null, null, 1)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +31,11 @@ class StoperFragment : Fragment(), View.OnClickListener {
     ): View? {
         val layout = inflater.inflate(R.layout.fragment_stoper, container, false)
         runStoper(layout)
-        val startButton = layout.findViewById<Button>(R.id.start_button)
+        val startButton = layout.findViewById<ImageButton>(R.id.start_button)
         startButton.setOnClickListener(this)
-        val stopButton = layout.findViewById<Button>(R.id.stop_button)
+        val stopButton = layout.findViewById<ImageButton>(R.id.stop_button)
         stopButton.setOnClickListener(this)
-        val resetButton = layout.findViewById<Button>(R.id.reset_button)
+        val resetButton = layout.findViewById<ImageButton>(R.id.reset_button)
         resetButton.setOnClickListener(this)
         return layout
     }

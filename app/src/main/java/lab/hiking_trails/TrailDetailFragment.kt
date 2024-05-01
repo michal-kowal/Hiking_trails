@@ -1,14 +1,7 @@
 package lab.hiking_trails
 
-import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.Bitmap
-import android.icu.text.SimpleDateFormat
-import android.media.Image
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,11 +12,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.lang.Math.ceil
-import java.util.*
 
 
 class TrailDetailFragment : Fragment() {
