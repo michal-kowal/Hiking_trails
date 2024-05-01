@@ -2,30 +2,32 @@ package lab.hiking_trails
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
+import java.util.*
 
 class TopFragment : Fragment() {
     private lateinit var trails: MutableList<Trail>
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
+    private lateinit var adapter: CaptionedImagesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val trailRecycler =
-            inflater.inflate(R.layout.fragment_top, container, false) as RecyclerView
-        val dbHandler =  DBHandler(requireContext(), null, null, 1)
+        val view = inflater.inflate(R.layout.fragment_top, container, false)
+
+        val searchEditText = view.findViewById<EditText>(R.id.search_edit_text)
+        val trailRecycler = view.findViewById<RecyclerView>(R.id.top_recycler)
+
+        val dbHandler = DBHandler(requireContext(), null, null, 1)
         trails = dbHandler.getTrailsList()
         val trailNames = trails
             .map { it.name }
@@ -34,11 +36,9 @@ class TopFragment : Fragment() {
         val trailImages = trails
             .map { it.imageId }
             .toIntArray()
-
-        val adapter = CaptionedImagesAdapter(trailNames, trailImages, trails.toTypedArray())
+        adapter = CaptionedImagesAdapter(trailNames, trailImages, trails.toTypedArray())
         trailRecycler.adapter = adapter
-        val layoutManager = GridLayoutManager(activity, 2)
-        trailRecycler.layoutManager = layoutManager
+        trailRecycler.layoutManager = GridLayoutManager(activity, 2)
 
         adapter.setListener(object : CaptionedImagesAdapter.Listener {
             override fun onClick(trail: Trail) {
@@ -47,6 +47,21 @@ class TopFragment : Fragment() {
                 activity?.startActivity(intent)
             }
         })
-        return trailRecycler
+
+        searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {
+                val searchText = s.toString().toLowerCase(Locale.getDefault())
+                val filteredTrails = trails.filter {
+                    it.name.toLowerCase(Locale.getDefault()).contains(searchText)
+                }
+                adapter.setData(filteredTrails)
+            }
+        })
+
+        return view
     }
 }

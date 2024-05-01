@@ -50,6 +50,12 @@ class CaptionedImagesAdapter(
         }
     }
 
+    fun setData(filteredTrails: List<Trail>) {
+        captions = filteredTrails.map { it.name }.toTypedArray()
+        imageIds = filteredTrails.map { it.imageId }.toIntArray()
+        trails = filteredTrails.toTypedArray()
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var cardView: CardView = itemView as CardView
