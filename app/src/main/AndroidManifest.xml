@@ -26,9 +26,6 @@
             android:name=".SingleFragmentActivity"
             android:exported="false" />
         <activity
-            android:name=".TempActivity"
-            android:exported="true"></activity>
-        <activity
             android:name=".DetailActivity"
             android:exported="false"
             android:label="@string/action_activity_title"

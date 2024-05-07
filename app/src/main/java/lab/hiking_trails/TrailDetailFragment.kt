@@ -14,20 +14,22 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
-class TrailDetailFragment : Fragment() {
+class TrailDetailFragment() : Fragment() {
 
     private lateinit var trail: Trail
     private var trailId: Long = 0
+    private val stoper = StoperFragment()
 
     fun setTrail(trail: Trail){
         this.trail = trail
         this.trailId = trail.id
+        stoper.setTrail(trail)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if(savedInstanceState == null){
-            val stoper = StoperFragment()
             val ft = childFragmentManager.beginTransaction()
             ft.add(R.id.stoper_container, stoper)
             ft.addToBackStack(null)

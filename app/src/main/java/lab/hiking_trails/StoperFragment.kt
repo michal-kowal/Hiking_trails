@@ -1,5 +1,6 @@
 package lab.hiking_trails
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -9,12 +10,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import kotlin.properties.Delegates
 
 class StoperFragment() : Fragment(), View.OnClickListener {
     private var seconds = 0
     private var running = false
     private var wasRunning = false
+    private lateinit var trail: Trail
+    private var stopTime: Long = 0
     //    private val dbHandler =  DBHandler(requireContext(), null, null, 1)
+
+    fun setTrail(trailSent: Trail){
+        trail = trailSent
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,11 +53,21 @@ class StoperFragment() : Fragment(), View.OnClickListener {
         wasRunning = running
         running = false
     }
-
+    override fun onStop() {
+        super.onStop()
+        if(running){
+            wasRunning = true
+        }
+        stopTime = System.currentTimeMillis() / 1000
+    }
     override fun onResume() {
         super.onResume()
-        if(wasRunning){
-            running=true
+        if (wasRunning) {
+            running = true
+        }
+        if(wasRunning && stopTime > 0){
+            val resumeTime = System.currentTimeMillis() / 1000
+            seconds = (seconds + resumeTime - stopTime).toInt()
         }
     }
 
@@ -62,6 +80,7 @@ class StoperFragment() : Fragment(), View.OnClickListener {
 
     private fun onClickStart(){
         running = true
+        println(trail.id)
     }
 
     private fun onClickStop(){
