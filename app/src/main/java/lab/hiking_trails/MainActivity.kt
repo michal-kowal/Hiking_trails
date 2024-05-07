@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity(), Listener,
         if (files.isNullOrEmpty()) {
             val input = context.assets.open("trails.db")
             val output = FileOutputStream(context.getDatabasePath("trails.db"))
-            Toast.makeText(context, "Hello, World!", Toast.LENGTH_SHORT).show()
             input.use { input ->
                 output.use { output ->
                     input.copyTo(output)

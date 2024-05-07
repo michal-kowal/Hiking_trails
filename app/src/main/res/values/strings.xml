@@ -22,5 +22,6 @@
     <string name="tatry">Informacje o Tatrach</string>
     <string name="karkonosze">Informacje o Karnonoszach</string>
     <string name="action_search_title">Szukaj</string>
-    <string name="save">Save</string>
+    <string name="save">Zapisz</string>
+    <string name="load">Wczytaj</string>
 </resources>

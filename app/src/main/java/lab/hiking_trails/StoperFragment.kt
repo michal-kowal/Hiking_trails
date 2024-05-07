@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import kotlin.properties.Delegates
 
 class StoperFragment() : Fragment(), View.OnClickListener {
@@ -18,7 +19,6 @@ class StoperFragment() : Fragment(), View.OnClickListener {
     private var wasRunning = false
     private lateinit var trail: Trail
     private var stopTime: Long = 0
-    //    private val dbHandler =  DBHandler(requireContext(), null, null, 1)
 
     fun setTrail(trailSent: Trail){
         trail = trailSent
@@ -32,11 +32,21 @@ class StoperFragment() : Fragment(), View.OnClickListener {
             wasRunning = savedInstanceState.getBoolean("wasRunning")
         }
     }
+    private fun saveTimeInDb(dbHandler: DBHandler){
+        dbHandler.insertStartTime(trail.id.toInt(), seconds)
+        Toast.makeText(context, "Zapisano wynik w bazie. Możesz go potem " +
+                "wczytać klikając wczytaj.", Toast.LENGTH_LONG).show()
+    }
 
+    private fun getSavedTimeFromDb(dbHandler: DBHandler){
+        seconds = dbHandler.getSavedTime(trail.id.toInt())
+        Toast.makeText(context, "Wczytano ostatni zapisany czas.", Toast.LENGTH_LONG).show()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val dbHandler =  DBHandler(requireContext(), null, null, 1)
         val layout = inflater.inflate(R.layout.fragment_stoper, container, false)
         runStoper(layout)
         val startButton = layout.findViewById<ImageButton>(R.id.start_button)
@@ -45,6 +55,14 @@ class StoperFragment() : Fragment(), View.OnClickListener {
         stopButton.setOnClickListener(this)
         val resetButton = layout.findViewById<ImageButton>(R.id.reset_button)
         resetButton.setOnClickListener(this)
+        val saveButton = layout.findViewById<Button>(R.id.save_button)
+        saveButton.setOnClickListener{
+            saveTimeInDb(dbHandler)
+        }
+        val loadButton = layout.findViewById<Button>(R.id.load_button)
+        loadButton.setOnClickListener{
+            getSavedTimeFromDb(dbHandler)
+        }
         return layout
     }
 

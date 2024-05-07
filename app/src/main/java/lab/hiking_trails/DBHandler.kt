@@ -14,13 +14,8 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
         const val TABLE_STAGES = "etapy"
         const val TABLE_TIMES = "times"
 
-        val COLUMN_ID = "id"
-        val COLUMN_NAME = "name"
-        val COLUMN_LENGTH = "length"
-        val COLUMN_DESCRIPTION = "description"
-        val COLUMN_COLOR = "color"
-        val COLUMN_IMAGE_ID = "image_id"
-        val COLUMN_localization = "localization"
+        const val COLUMN_TRAILID = "trailId"
+        const val COLUMN_TIME = "time"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -29,10 +24,41 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
     override fun onUpgrade(db: SQLiteDatabase, p1: Int, p2: Int) {
     }
 
-    fun insertStartTime(trailId: Int, seconds: Int){
-        val query = "INSERT INTO $TABLE_TIMES (trailId, start, saved) VALUES ($trailId, $seconds, 0)"
+    private fun checkIfTimeInTable(trailId: Int): Boolean{
         val db = this.writableDatabase
+        val countQuery = "SELECT COUNT(*) FROM $TABLE_TIMES WHERE $COLUMN_TRAILID = $trailId"
+        val cursor = db.rawQuery(countQuery, null)
+        cursor.moveToFirst()
+        val countResult = cursor.getInt(0)
+        cursor.close()
+        return countResult == 1
+    }
+
+    fun insertStartTime(trailId: Int, seconds: Int){
+        val db = this.writableDatabase
+        val query: String = if (!checkIfTimeInTable(trailId)) {
+            "INSERT INTO $TABLE_TIMES ($COLUMN_TRAILID, $COLUMN_TIME) " +
+                    "VALUES ($trailId, $seconds)"
+        } else{
+            "UPDATE $TABLE_TIMES SET $COLUMN_TIME=$seconds " +
+                    "WHERE $COLUMN_TRAILID=$trailId"
+        }
         db.execSQL(query)
+    }
+
+    fun getSavedTime(trailId: Int): Int{
+        val db = this.writableDatabase
+        if (!checkIfTimeInTable(trailId)){
+            return 0
+        }
+        else{
+            val query = "SELECT $COLUMN_TIME FROM $TABLE_TIMES WHERE $COLUMN_TRAILID=$trailId"
+            val cursor = db.rawQuery(query, null)
+            cursor.moveToFirst()
+            val result = cursor.getInt(0)
+            cursor.close()
+            return result
+        }
     }
     private fun getTrailStages(stageId: Int):MutableList<Stage>{
         val stagesList: MutableList<Stage> = mutableListOf()
