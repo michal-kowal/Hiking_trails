@@ -1,6 +1,8 @@
 package lab.hiking_trails
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +13,11 @@ import androidx.recyclerview.widget.RecyclerView
 
 class Tab2Fragment : Fragment() {
     private lateinit var trails: MutableList<Trail>
+
+    private fun isTablet(context: Context): Boolean {
+        val configuration = context.resources.configuration
+        return configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >= Configuration.SCREENLAYOUT_SIZE_LARGE
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,8 +37,13 @@ class Tab2Fragment : Fragment() {
 
         val adapter = CaptionedImagesAdapter(trailNames, trailImages, trails.filter { it.localization == "Karkonosze" }.toTypedArray())
         trailRecycler.adapter = adapter
-        val layoutManager = GridLayoutManager(activity, 2)
-        trailRecycler.layoutManager = layoutManager
+        val isTablet = context?.let { isTablet(it) }
+        if (isTablet == true){
+            trailRecycler.layoutManager = GridLayoutManager(activity, 3)
+        }
+        else{
+            trailRecycler.layoutManager = GridLayoutManager(activity, 2)
+        }
 
         adapter.setListener(object : CaptionedImagesAdapter.Listener {
             override fun onClick(trail: Trail) {
