@@ -30,6 +30,7 @@ class StoperFragment() : Fragment(), View.OnClickListener {
             seconds = savedInstanceState.getInt("seconds")
             running = savedInstanceState.getBoolean("running")
             wasRunning = savedInstanceState.getBoolean("wasRunning")
+            trail = savedInstanceState.getSerializable("trail") as Trail
         }
     }
     private fun saveTimeInDb(dbHandler: DBHandler){
@@ -94,6 +95,7 @@ class StoperFragment() : Fragment(), View.OnClickListener {
         outState.putInt("seconds", seconds)
         outState.putBoolean("running", running)
         outState.putBoolean("wasRunning", wasRunning)
+        outState.putSerializable("trail", trail)
     }
 
     private fun onClickStart(){

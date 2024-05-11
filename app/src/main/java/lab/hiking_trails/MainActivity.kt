@@ -86,11 +86,6 @@ class MainActivity : AppCompatActivity(), Listener,
             R.string.close_drawer)
         drawer.addDrawerListener(toggle)
         toggle.syncState()
-
-//        val fragment = Fragment()
-//        val ft = supportFragmentManager.beginTransaction()
-//        ft.add(R.id.content_frame, fragment)
-//        ft.commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -134,7 +129,7 @@ class MainActivity : AppCompatActivity(), Listener,
     override fun onBackPressed() {
         super.onBackPressed()
         val drawer: DrawerLayout = findViewById(R.id.drawer_layout)
-        if(drawer.isDrawerOpen(GravityCompat.START)){
+        if(drawer.isDrawerOpen(GravityCompat.END)){
             drawer.closeDrawer(GravityCompat.START)
         }else{
             super.onBackPressed()

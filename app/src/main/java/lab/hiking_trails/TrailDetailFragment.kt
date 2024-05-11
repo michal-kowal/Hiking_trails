@@ -25,7 +25,6 @@ class TrailDetailFragment() : Fragment() {
         this.trailId = trail.id
         stoper.setTrail(trail)
     }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -140,5 +139,4 @@ class TrailDetailFragment() : Fragment() {
             Toast.makeText(view.context, "Brak aplikacji aparatu", Toast.LENGTH_SHORT).show()
         }
     }
-
 }
