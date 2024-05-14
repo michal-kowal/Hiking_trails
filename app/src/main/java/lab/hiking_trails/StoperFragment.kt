@@ -118,10 +118,6 @@ class StoperFragment() : Fragment(), View.OnClickListener {
             times = dbHandler.getSavedTime(trail.id.toInt())
             displayTimes(times, savedTimesLayout, dbHandler)
         }
-        val loadButton = layout.findViewById<Button>(R.id.load_button)
-//        loadButton.setOnClickListener{
-//            getSavedTimeFromDb(dbHandler)
-//        }
         displayTimes(times, savedTimesLayout, dbHandler)
         return layout
     }

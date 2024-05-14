@@ -91,16 +91,6 @@
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/load_button"
-                style="@style/ButtonStyle"
-                android:text="@string/load" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_weight="2" />
         </LinearLayout>
 
