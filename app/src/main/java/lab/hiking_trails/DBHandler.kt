@@ -20,6 +20,7 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
         const val COLUMN_TRAILID = "trailId"
         const val COLUMN_TIME = "time"
         const val COLUMN_DATE = "date"
+        const val COLUMN_PATH = "path"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -44,6 +45,12 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
         val dateToInsert = dateFormat.format(Date()).toString()
         val query: String = "INSERT INTO $TABLE_TIMES ($COLUMN_TIME, $COLUMN_TRAILID, $COLUMN_DATE) " +
                 "VALUES ($seconds, $trailId, $dateToInsert)"
+        db.execSQL(query)
+    }
+
+    fun updatePath(id: Int, path: String){
+        val db = this.writableDatabase
+        val query = "UPDATE $TABLE_TRAILS SET $COLUMN_PATH='$path' WHERE $COLUMN_ID=$id"
         db.execSQL(query)
     }
 
@@ -118,8 +125,9 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
             val image = cursor.getString(4)
             val image_id = context.resources.getIdentifier(image, "drawable", context.packageName)
             val localization = cursor.getString(5)
+            val path = cursor.getString(6)
             val stages = getTrailStages(id.toInt())
-            trail = Trail(id, name, length, description, image_id, localization, stages)
+            trail = Trail(id, name, length, description, image_id, localization, stages, path)
             trailsList.add(trail)
         }
         while(cursor.moveToNext()){
@@ -130,8 +138,9 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
             val image = cursor.getString(4)
             val image_id = context.resources.getIdentifier(image, "drawable", context.packageName)
             val localization = cursor.getString(5)
+            val path = cursor.getString(6)
             val stages = getTrailStages(id.toInt())
-            trail = Trail(id, name, length, description, image_id, localization, stages)
+            trail = Trail(id, name, length, description, image_id, localization, stages, path)
             trailsList.add(trail)
         }
         cursor.close()

@@ -1,7 +1,7 @@
 package lab.hiking_trails
 
 class Trail(id: Long, name: String, length: Float, description: String, imageId: Int,
-            localization: String, stages: MutableList<Stage>) : java.io.Serializable {
+            localization: String, stages: MutableList<Stage>, path: String) : java.io.Serializable {
     var id: Long
     var name: String
     var length: Float
@@ -9,6 +9,7 @@ class Trail(id: Long, name: String, length: Float, description: String, imageId:
     var localization: String
     var imageId: Int
     var stages: MutableList<Stage>
+    var path: String
 
     init {
         this.id = id
@@ -18,5 +19,6 @@ class Trail(id: Long, name: String, length: Float, description: String, imageId:
         this.localization = localization
         this.imageId = imageId
         this.stages = stages
+        this.path = path
     }
 }

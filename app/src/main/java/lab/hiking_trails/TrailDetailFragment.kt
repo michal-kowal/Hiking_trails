@@ -1,6 +1,8 @@
 package lab.hiking_trails
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -10,34 +12,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.fragment.app.FragmentTransaction
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.File
+import java.io.FileOutputStream
 
 
-class TrailDetailFragment() : Fragment() {
+class TrailDetailFragment : Fragment() {
 
     private lateinit var trail: Trail
     private var trailId: Long = 0
     private val stoper = StoperFragment()
+    private lateinit var imageView: ImageView
+    private var imageFilePath: String? = null
 
-    fun setTrail(trail: Trail){
+    fun setTrail(trail: Trail) {
         this.trail = trail
         this.trailId = trail.id
         stoper.setTrail(trail)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if(savedInstanceState == null){
+        if (savedInstanceState == null) {
             val ft = childFragmentManager.beginTransaction()
             ft.add(R.id.stoper_container, stoper)
             ft.addToBackStack(null)
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             ft.commit()
-        }
-        else{
+        } else {
             trailId = savedInstanceState.getLong("trailId")
             trail = savedInstanceState.getSerializable("trail") as Trail
+            imageFilePath = savedInstanceState.getString("imageFilePath")
         }
     }
 
@@ -47,6 +58,7 @@ class TrailDetailFragment() : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_trail_detail, container, false)
     }
+
     private fun removeTextViews(layout: LinearLayout) {
         val viewsToRemove = mutableListOf<View>()
 
@@ -62,15 +74,18 @@ class TrailDetailFragment() : Fragment() {
             layout.removeView(textView)
         }
     }
-    private fun addStages(stages: MutableList<Stage>, layout: LinearLayout, speed: Double,
-                          fullLength: Double){
+
+    private fun addStages(
+        stages: MutableList<Stage>, layout: LinearLayout, speed: Double,
+        fullLength: Double
+    ) {
         val stagesCount = stages.size
         removeTextViews(layout)
-        for(i in 1 until stagesCount){
+        for (i in 1 until stagesCount) {
             val currentStage = stages[i]
-            val previousStage = stages[i-1]
+            val previousStage = stages[i - 1]
             val time = kotlin.math.ceil(
-                ((currentStage.length-previousStage.length) / speed) * 60
+                ((currentStage.length - previousStage.length) / speed) * 60
             )
             val textToDisplay = "$i. ${previousStage.name} - ${currentStage.name}: ${time}min"
             val textView = TextView(requireContext())
@@ -89,15 +104,26 @@ class TrailDetailFragment() : Fragment() {
         textView.text = textToDisplay
         layout.addView(textView)
     }
+
     override fun onStart() {
         super.onStart()
         val view = view
-        if(view != null){
-            val imageView: ImageView = view.findViewById(R.id.image)
-            imageView.setImageResource(trail.imageId)
+        if (view != null) {
+            imageView = view.findViewById(R.id.image)
+            if (trail.path.isNotBlank() && trail.path != "blank") {
+                val file = File(trail.path)
+                if (file.exists()) {
+                    val uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", file)
+                    imageView.setImageURI(uri)
+                } else {
+                    imageView.setImageResource(trail.imageId)
+                }
+            } else {
+                imageView.setImageResource(trail.imageId)
+            }
 
             val fab: FloatingActionButton = view.findViewById(R.id.FAB)
-            fab.setOnClickListener{clickFab(view)}
+            fab.setOnClickListener { clickFab(view) }
 
             val title = view.findViewById<TextView>(R.id.textName)
             title.text = trail.name
@@ -108,15 +134,11 @@ class TrailDetailFragment() : Fragment() {
             addStages(trail.stages, stagesLayout, 5.0, trail.length.toDouble())
 
             val editText = view.findViewById<EditText>(R.id.editTextNumberDecimal)
-            editText.addTextChangedListener(object: TextWatcher{
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
+            editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun afterTextChanged(p0: Editable?) {
-                    if(p0.toString() != "") {
+                    if (p0.toString() != "") {
                         val newSpeed = p0.toString().toDouble()
                         removeTextViews(stagesLayout)
                         addStages(trail.stages, stagesLayout, newSpeed, trail.length.toDouble())
@@ -126,17 +148,48 @@ class TrailDetailFragment() : Fragment() {
         }
     }
 
+    @SuppressLint("SdCardPath")
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            val data: Intent? = result.data
+            val uri = data?.data
+            val dbHandler =  DBHandler(requireContext(), null, null, 1)
+            if (uri != null) {
+                val fileUri = saveImageToInternalStorage(uri)
+                imageFilePath = fileUri.path?.let { File(it).absolutePath }
+                imageView.setImageURI(Uri.fromFile(fileUri))
+                trail.path = imageFilePath.toString()
+                dbHandler.updatePath(trail.id.toInt(), trail.path)
+            }
+        }
+    }
+
+
     override fun onSaveInstanceState(savedInstanceState: Bundle) {
         savedInstanceState.putLong("trailId", trailId)
         savedInstanceState.putSerializable("trail", trail)
+        savedInstanceState.putString("imageFilePath", imageFilePath)
     }
 
     private fun clickFab(view: View) {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        if (takePictureIntent.resolveActivity(view.context.packageManager) != null) {
-            startActivityForResult(takePictureIntent, 1)
-        } else {
-            Toast.makeText(view.context, "Brak aplikacji aparatu", Toast.LENGTH_SHORT).show()
+        ImagePicker.with(this)
+            .cameraOnly()
+            .compress(1024)
+            .maxResultSize(1080, 1080)
+            .createIntent { intent ->
+                imagePickerLauncher.launch(intent)
+            }
+    }
+
+    private fun saveImageToInternalStorage(imageUri: Uri): File {
+        val file = File(requireContext().filesDir, "saved_image$trailId.jpg")
+        val inputStream = requireContext().contentResolver.openInputStream(imageUri)
+        val outputStream = FileOutputStream(file)
+        inputStream?.use { input ->
+            outputStream.use { output ->
+                input.copyTo(output)
+            }
         }
+        return file
     }
 }
