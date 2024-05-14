@@ -7,10 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.view.ContextThemeWrapper
 import kotlin.properties.Delegates
 
 class StoperFragment() : Fragment(), View.OnClickListener {
@@ -35,14 +33,70 @@ class StoperFragment() : Fragment(), View.OnClickListener {
     }
     private fun saveTimeInDb(dbHandler: DBHandler){
         dbHandler.insertStartTime(trail.id.toInt(), seconds)
-        Toast.makeText(context, "Zapisano wynik w bazie. Możesz go potem " +
-                "wczytać klikając wczytaj.", Toast.LENGTH_LONG).show()
+        Toast.makeText(context, "Zapisano wynik w bazie. ", Toast.LENGTH_LONG).show()
+    }
+    private fun displayTimes(times: MutableList<Time>, savedTimesLayout: LinearLayout,
+                             dbHandler: DBHandler) {
+        if (times.isNotEmpty()) {
+            savedTimesLayout.removeAllViews()
+            val title = TextView(requireContext()).apply {
+                text = "Twoje czasy:"
+            }
+            savedTimesLayout.addView(title)
+
+            for (i in times.indices) {
+                val date = times[i].date
+                val time = times[i].time
+                val hours = time / 3600
+                val minutes = (time % 3600) / 60
+                val secs = time % 60
+                val timeConverted = String.format("%d:%02d:%02d", hours, minutes, secs)
+                val textToDisplay = "${i + 1}. Czas: $timeConverted"
+
+                val itemLayout = LinearLayout(requireContext()).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    layoutParams = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                    )
+                }
+
+                val textView = TextView(ContextThemeWrapper(requireContext(), R.style.TimeText),
+                    null, 0).apply {
+                    text = textToDisplay
+                    layoutParams = LinearLayout.LayoutParams(
+                        0,
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        1f
+                    )
+                }
+                itemLayout.addView(textView)
+
+                val button1 = Button(ContextThemeWrapper(requireContext(),
+                    R.style.ButtonSmallStyle), null, 0).apply {
+                    text = "Wczytaj"
+                    setOnClickListener {
+                        seconds = times[i].time
+                    }
+                }
+                itemLayout.addView(button1)
+
+                val button2 = Button(ContextThemeWrapper(requireContext(),
+                    R.style.ButtonSmallStyle), null, 0).apply {
+                    text = "Usuń"
+                    setOnClickListener {
+                        dbHandler.deleteTime(times[i].id)
+                        times.removeAt(i)
+                        displayTimes(times, savedTimesLayout, dbHandler)
+                    }
+                }
+                itemLayout.addView(button2)
+                savedTimesLayout.addView(itemLayout)
+            }
+        }
     }
 
-    private fun getSavedTimeFromDb(dbHandler: DBHandler){
-        seconds = dbHandler.getSavedTime(trail.id.toInt())
-        Toast.makeText(context, "Wczytano ostatni zapisany czas.", Toast.LENGTH_LONG).show()
-    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -57,13 +111,18 @@ class StoperFragment() : Fragment(), View.OnClickListener {
         val resetButton = layout.findViewById<ImageButton>(R.id.reset_button)
         resetButton.setOnClickListener(this)
         val saveButton = layout.findViewById<Button>(R.id.save_button)
+        var times = dbHandler.getSavedTime(trail.id.toInt())
+        val savedTimesLayout = layout.findViewById<LinearLayout>(R.id.savedTimes)
         saveButton.setOnClickListener{
             saveTimeInDb(dbHandler)
+            times = dbHandler.getSavedTime(trail.id.toInt())
+            displayTimes(times, savedTimesLayout, dbHandler)
         }
         val loadButton = layout.findViewById<Button>(R.id.load_button)
-        loadButton.setOnClickListener{
-            getSavedTimeFromDb(dbHandler)
-        }
+//        loadButton.setOnClickListener{
+//            getSavedTimeFromDb(dbHandler)
+//        }
+        displayTimes(times, savedTimesLayout, dbHandler)
         return layout
     }
 

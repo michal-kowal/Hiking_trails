@@ -72,31 +72,44 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp">
+
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
+
             <Button
                 android:id="@+id/save_button"
-                android:text="@string/save"
-                style="@style/ButtonStyle"/>
+                style="@style/ButtonStyle"
+                android:text="@string/save" />
+
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
             <Button
                 android:id="@+id/load_button"
-                android:text="@string/load"
-                style="@style/ButtonStyle"/>
+                style="@style/ButtonStyle"
+                android:text="@string/load" />
+
             <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/savedTimes"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"></LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

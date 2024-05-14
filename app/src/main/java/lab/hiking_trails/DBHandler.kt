@@ -3,6 +3,8 @@ package lab.hiking_trails
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.icu.text.SimpleDateFormat
+import java.util.*
 
 class DBHandler (private val context: Context, name: String?, factory: SQLiteDatabase.CursorFactory?,
 version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
@@ -14,8 +16,10 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
         const val TABLE_STAGES = "etapy"
         const val TABLE_TIMES = "times"
 
+        const val COLUMN_ID = "id"
         const val COLUMN_TRAILID = "trailId"
         const val COLUMN_TIME = "time"
+        const val COLUMN_DATE = "date"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -31,33 +35,49 @@ version: Int): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSIO
         cursor.moveToFirst()
         val countResult = cursor.getInt(0)
         cursor.close()
-        return countResult == 1
+        return countResult > 0
     }
 
     fun insertStartTime(trailId: Int, seconds: Int){
         val db = this.writableDatabase
-        val query: String = if (!checkIfTimeInTable(trailId)) {
-            "INSERT INTO $TABLE_TIMES ($COLUMN_TRAILID, $COLUMN_TIME) " +
-                    "VALUES ($trailId, $seconds)"
-        } else{
-            "UPDATE $TABLE_TIMES SET $COLUMN_TIME=$seconds " +
-                    "WHERE $COLUMN_TRAILID=$trailId"
-        }
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+        val dateToInsert = dateFormat.format(Date()).toString()
+        val query: String = "INSERT INTO $TABLE_TIMES ($COLUMN_TIME, $COLUMN_TRAILID, $COLUMN_DATE) " +
+                "VALUES ($seconds, $trailId, $dateToInsert)"
         db.execSQL(query)
     }
 
-    fun getSavedTime(trailId: Int): Int{
+    fun deleteTime(id: Int){
         val db = this.writableDatabase
+        val query = "DELETE FROM $TABLE_TIMES WHERE $COLUMN_ID=$id"
+        db.execSQL(query)
+    }
+    fun getSavedTime(trailId: Int): MutableList<Time>{
+        val db = this.writableDatabase
+        val savedTimes: MutableList<Time> = mutableListOf()
         if (!checkIfTimeInTable(trailId)){
-            return 0
+            return savedTimes
         }
         else{
-            val query = "SELECT $COLUMN_TIME FROM $TABLE_TIMES WHERE $COLUMN_TRAILID=$trailId"
+            val query = "SELECT * FROM $TABLE_TIMES WHERE $COLUMN_TRAILID=$trailId"
             val cursor = db.rawQuery(query, null)
-            cursor.moveToFirst()
-            val result = cursor.getInt(0)
+            var time: Time?
+            if(cursor.moveToFirst()){
+                val id = cursor.getInt(0)
+                val timeFromDb = cursor.getInt(1)
+                val date = cursor.getString(2)
+                time = Time(id, timeFromDb, date)
+                savedTimes.add(time)
+            }
+            while(cursor.moveToNext()){
+                val id = cursor.getInt(0)
+                val timeFromDb = cursor.getInt(1)
+                val date = cursor.getString(2)
+                time = Time(id, timeFromDb, date)
+                savedTimes.add(time)
+            }
             cursor.close()
-            return result
+            return savedTimes
         }
     }
     private fun getTrailStages(stageId: Int):MutableList<Stage>{

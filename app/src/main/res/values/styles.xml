@@ -13,4 +13,13 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="ButtonSmallStyle" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/button_color</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="TimeText" parent="Widget.AppCompat.Button">
+        <item name="android:textColor">@color/button_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
